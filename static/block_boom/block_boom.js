@@ -67,7 +67,6 @@ class BlockBoom {
             }
         }
 
-        // store info abt the last block that got placed
         this.lastPlacedBlockInfo = {
             cells: blockCells,
             color: block.color
@@ -80,25 +79,21 @@ class BlockBoom {
     async checkLines() {
         let linesToClear = [];
         
-        // check rows to clear
+        // Check rows
         for (let i = 0; i < this.GRID_SIZE; i++) {
             if (this.grid[i].every(cell => cell !== null)) {
                 linesToClear.push({ type: 'row', index: i });
             }
         }
         
-        // check columns to clear
+        // Check columns
         for (let j = 0; j < this.GRID_SIZE; j++) {
             if (this.grid.every(row => row[j] !== null)) {
                 linesToClear.push({ type: 'column', index: j });
             }
         }
 
-        if (linesToClear.length > 0) {
-            return linesToClear;
-        }
-        
-        return null;
+        return linesToClear.length > 0 ? linesToClear : null;
     }
 
     determineDirection(type) {
@@ -108,14 +103,12 @@ class BlockBoom {
 
         const cells = this.lastPlacedBlockInfo.cells;
         let sum = 0;
-        // logic for which direction to cascade the clearing sequence
+        
         if (type === 'row') {
-            // calculate average row position
             sum = cells.reduce((acc, cell) => acc + cell.row, 0) / cells.length;
             if (sum === this.GRID_SIZE / 2) return 'top-down';
             return sum < this.GRID_SIZE / 2 ? 'top-down' : 'bottom-up';
         } else {
-            // calculate average column position
             sum = cells.reduce((acc, cell) => acc + cell.col, 0) / cells.length;
             if (sum === this.GRID_SIZE / 2) return 'left-right';
             return sum < this.GRID_SIZE / 2 ? 'left-right' : 'right-left';
@@ -136,7 +129,6 @@ class BlockBoom {
             }
         }
 
-        // reverse sequence if clearing from bottom-up or right-left
         if (direction === 'bottom-up' || direction === 'right-left') {
             sequence.reverse();
         }
@@ -255,10 +247,8 @@ class BlockBoomUI {
             const row = parseInt(cell.dataset.row);
             const col = parseInt(cell.dataset.col);
 
-            // clear previous preview for loop
             this.clearPreview();
 
-            // show preview if placement is valid (start's from top left corner)
             if (this.game.isValidPlacement(this.draggedBlock, row, col)) {
                 this.showPreview(this.draggedBlock, row, col);
             }
@@ -282,7 +272,6 @@ class BlockBoomUI {
 
             if (this.game.placeBlock(this.draggedBlock, row, col)) {
                 this.sounds.place.play();
-                await this.updateGrid();
                 
                 const blockIndex = parseInt(this.draggedElement.dataset.blockIndex);
                 this.game.availableBlocks.splice(blockIndex, 1);
@@ -293,6 +282,16 @@ class BlockBoomUI {
                 
                 this.createPreviewBlocks();
                 this.scoreDisplay.textContent = this.game.score;
+                
+                const linesToClear = await this.game.checkLines();
+                if (linesToClear) {
+                    for (const line of linesToClear) {
+                        const sequence = this.game.getClearingSequence(line);
+                        await this.animateClearLine(sequence);
+                    }
+                }
+                
+                this.refreshGridDisplay();
 
                 if (this.game.isGameOver()) {
                     this.showGameOver();
@@ -301,43 +300,23 @@ class BlockBoomUI {
         });
     }
 
-    async updateGrid() {
-        const linesToClear = await this.game.checkLines();
-        if (linesToClear) {
-            for (const line of linesToClear) {
-                const sequence = this.game.getClearingSequence(line);
-                await this.animateClearLine(sequence);
-            }
-            
-            // after clearing all lines update the grid display
-            this.refreshGridDisplay();
-        } else {
-            this.refreshGridDisplay();
-        }
-    }
-
     async animateClearLine(sequence) {
         for (const cell of sequence) {
             const cellElement = this.findCell(cell.row, cell.col);
             if (cellElement) {
-                // store the original color for the flash effect
                 const originalColor = this.game.grid[cell.row][cell.col];
                 
-                // flash effect
                 cellElement.style.backgroundColor = '#fff';
                 await new Promise(resolve => setTimeout(resolve, 50));
                 cellElement.style.backgroundColor = originalColor;
                 await new Promise(resolve => setTimeout(resolve, 50));
                 
-                // clear the cell
                 this.game.grid[cell.row][cell.col] = null;
                 cellElement.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
                 cellElement.classList.remove('filled');
                 
-                // play clear sound for each cell
                 this.sounds.clear.cloneNode(true).play();
                 
-                // wait before clearing next cell for animation look
                 await new Promise(resolve => setTimeout(resolve, 100));
             }
         }
@@ -345,7 +324,7 @@ class BlockBoomUI {
 
     refreshGridDisplay() {
         for (let i = 0; i < this.game.GRID_SIZE; i++) {
-            for (let j = 0; j < this.GRID_SIZE; j++) {
+            for (let j = 0; j < this.game.GRID_SIZE; j++) {
                 const cell = this.findCell(i, j);
                 const color = this.game.grid[i][j];
                 if (cell) {
@@ -393,7 +372,7 @@ class BlockBoomUI {
     }
 }
 
-// init game
+// Initialize the game when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new BlockBoomUI('game-container');
+    new BlockBoomUI('game-grid');
 });
