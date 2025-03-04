@@ -4,26 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Block Games</title>
-    <link rel="stylesheet" href="static/styles.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #34495e;
+            font-family: Arial, sans-serif;
+        }
+        
+        .game-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .game-card {
+            background: #2c3e50;
+            border-radius: 10px;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-preview {
+            height: 200px;
+            background: #243342;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .block-tiles-preview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            padding: 20px;
+        }
+        
+        .block-tiles-piece {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+        }
+        
+        .block-boom-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .block-boom-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+        
+        .block-boom-piece {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+        }
+        
+        .game-title {
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .coming-soon {
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 <body>
     <div class="game-cards">
         <a href="block_tiles.html" class="game-card">
             <div class="game-preview">
-                <canvas id="gameCanvas"></canvas>
+                <div class="block-tiles-preview">
+                    <div class="block-tiles-piece" style="background-color: #FF6B6B"></div>
+                    <div class="block-tiles-piece" style="background-color: #4ECDC4"></div>
+                    <div class="block-tiles-piece" style="background-color: #45B7D1"></div>
+                    <div class="block-tiles-piece" style="background-color: #96CEB4"></div>
+                    <div class="block-tiles-piece" style="background-color: #FFD93D"></div>
+                    <div class="block-tiles-piece" style="background-color: #FF9F1C"></div>
+                    <div class="block-tiles-piece" style="background-color: #6C5B7B"></div>
+                    <div class="block-tiles-piece" style="background-color: #C06C84"></div>
+                </div>
             </div>
             <div class="game-title">Block Tiles</div>
         </a>
 
         <a href="block_boom.html" class="game-card">
-            <div class="game-preview block-boom-preview">
-                <div class="block-boom-grid">
-                    <div class="block-boom-piece" style="background-color: #FF6B6B"></div>
-                    <div class="block-boom-piece" style="background-color: #4ECDC4"></div>
-                    <div class="block-boom-piece" style="background-color: #45B7D1"></div>
-                    <div class="block-boom-piece" style="background-color: #96CEB4"></div>
-                    <div class="block-boom-piece" style="background-color: #FFD93D"></div>
-                    <div class="block-boom-piece" style="background-color: #6C5B7B"></div>
+            <div class="game-preview">
+                <div class="block-boom-preview">
+                    <div class="block-boom-grid">
+                        <div class="block-boom-piece" style="background-color: #FF6B6B"></div>
+                        <div class="block-boom-piece" style="background-color: #4ECDC4"></div>
+                        <div class="block-boom-piece" style="background-color: #45B7D1"></div>
+                        <div class="block-boom-piece" style="background-color: #96CEB4"></div>
+                        <div class="block-boom-piece" style="background-color: #FFD93D"></div>
+                        <div class="block-boom-piece" style="background-color: #6C5B7B"></div>
+                    </div>
                 </div>
             </div>
             <div class="game-title">Block Boom</div>
