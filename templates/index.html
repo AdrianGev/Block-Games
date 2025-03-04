@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Games</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Block Games</h1>
+    </div>
+
+    <div class="games-container">
+        <a href="{{ url_for('block_tiles.game') }}" class="game-card">
+            <div class="game-preview">
+                <div class="block-tiles-preview">
+                    <div class="block-tile" style="background-color: #FF6B6B"></div>
+                    <div class="block-tile" style="background-color: #4ECDC4"></div>
+                    <div class="block-tile" style="background-color: #45B7D1"></div>
+                    <div class="block-tile" style="background-color: #96CEB4"></div>
+                    <div class="block-tile" style="background-color: #FFD93D"></div>
+                    <div class="block-tile" style="background-color: #FF9F1C"></div>
+                    <div class="block-tile" style="background-color: #6C5B7B"></div>
+                    <div class="block-tile" style="background-color: #C06C84"></div>
+                    <div class="block-tile" style="background-color: #F8B195"></div>
+                </div>
+            </div>
+            <div class="game-title">Block Tiles</div>
+        </a>
+
+        <a href="{{ url_for('block_blast.game') }}" class="game-card">
+            <div class="game-preview">
+                <div class="block-blast-preview">
+                    <div class="block-blast-piece square" style="background-color: #FF6B6B"></div>
+                    <div class="block-blast-piece l-shape" style="background-color: #4ECDC4"></div>
+                    <div class="block-blast-piece line" style="background-color: #FFD93D"></div>
+                    <div class="block-blast-piece" style="background-color: #FF9F1C"></div>
+                    <div class="block-blast-piece" style="background-color: #6C5B7B"></div>
+                </div>
+            </div>
+            <div class="game-title">Block Boom</div>
+        </a>
+
+        <a href="#" class="game-card">
+            <div class="game-preview">
+                <div class="coming-soon">Coming Soon</div>
+            </div>
+            <div class="game-title">Block Survival</div>
+        </a>
+
+        <a href="#" class="game-card">
+            <div class="game-preview">
+                <div class="coming-soon">Coming Soon</div>
+            </div>
+            <div class="game-title">Leaderboard</div>
+        </a>
+    </div>
+</body>
+</html>
