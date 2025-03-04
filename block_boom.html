@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Boom - Block Games</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #34495e;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        
+        .game-container {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            gap: 2px;
+            padding: 10px;
+            background: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .grid-cell {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .grid-cell.filled {
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .grid-cell.preview {
+            opacity: 0.5;
+            transition: background-color 0.2s;
+        }
+        
+        .preview-area {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .blocks-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .preview-block {
+            display: grid;
+            gap: 2px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+        
+        .preview-block:hover {
+            transform: translateY(-2px);
+        }
+        
+        .preview-block.dragging {
+            opacity: 0.5;
+        }
+        
+        .block-cell {
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+        }
+        
+        .score {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .game-over {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .game-over-content {
+            background-color: #2c3e50;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .restart-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .restart-button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Block Boom</h1>
+        <div class="score">Score: <span id="score">0</span></div>
+        <div id="game-grid" class="game-grid"></div>
+        <div class="preview-area">
+            <div id="blocks-container" class="blocks-container"></div>
+        </div>
+        <a href="index.html" class="back-button">Back to Menu</a>
+    </div>
+    
+    <div class="game-over" id="gameOver">
+        <div class="game-over-content">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <button class="restart-button" onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="static/block_boom/block_boom.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameContainer = document.getElementById('game-grid');
+            const blocksContainer = document.getElementById('blocks-container');
+            new BlockBoomUI('game-grid');
+        });
+    </script>
+</body>
+</html>

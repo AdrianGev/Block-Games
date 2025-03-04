@@ -184,9 +184,9 @@ class BlockBoomUI {
         this.draggedElement = null;
         
         this.sounds = {
-            place: new Audio('/static/block_boom/assets/sounds/place.mp3'),
-            clear: new Audio('/static/block_boom/assets/sounds/clear.mp3'),
-            gameOver: new Audio('/static/block_boom/assets/sounds/gameover.mp3')
+            place: new Audio('static/block_boom/assets/sounds/place.mp3'),
+            clear: new Audio('static/block_boom/assets/sounds/clear.mp3'),
+            gameOver: new Audio('static/block_boom/assets/sounds/gameover.mp3')
         };
         
         this.createGrid();
@@ -345,7 +345,7 @@ class BlockBoomUI {
 
     refreshGridDisplay() {
         for (let i = 0; i < this.game.GRID_SIZE; i++) {
-            for (let j = 0; j < this.game.GRID_SIZE; j++) {
+            for (let j = 0; j < this.GRID_SIZE; j++) {
                 const cell = this.findCell(i, j);
                 const color = this.game.grid[i][j];
                 if (cell) {
